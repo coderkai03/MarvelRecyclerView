@@ -26,7 +26,7 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 }
 
-class MarvelAdapter(private val marvelList: List<MarvelCharacter>) : RecyclerView.Adapter<ViewHolder>() {
+class MarvelAdapter(private val marvelList: MutableList<MarvelCharacter>) : RecyclerView.Adapter<ViewHolder>() {
 
     // autogen func
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,7 +40,7 @@ class MarvelAdapter(private val marvelList: List<MarvelCharacter>) : RecyclerVie
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val character = marvelList[position]
         Glide.with(holder.itemView)
-            .load(marvelList[position])
+            .load(character.imageUrl)
             .centerCrop()
             .into(holder.marvelImage)
 

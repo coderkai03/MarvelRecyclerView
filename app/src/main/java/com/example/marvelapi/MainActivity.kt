@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     val publicKey = "e32c8e1389e6a11e495b92a33e7060fd"
     val timestamp = System.currentTimeMillis()
 
-    private lateinit var marvelList: MutableList<String>
+    private lateinit var marvelList: MutableList<MarvelCharacter>
     private lateinit var rvMarvel: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {

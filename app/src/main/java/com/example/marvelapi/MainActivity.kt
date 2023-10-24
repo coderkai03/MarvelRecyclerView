@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
@@ -18,24 +20,36 @@ class MainActivity : AppCompatActivity() {
     val publicKey = "e32c8e1389e6a11e495b92a33e7060fd"
     val timestamp = System.currentTimeMillis()
 
+    private lateinit var marvelList: MutableList<String>
+    private lateinit var rvMarvel: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val button = findViewById<Button>(R.id.marvelButton)
-        val imageView = findViewById<ImageView>(R.id.marvelImage)
+        //val button = findViewById<Button>(R.id.marvelButton)
+//        val imageView = findViewById<ImageView>(R.id.marvelImage)
 
-        getNextImage(button, imageView)
+        marvelList = mutableListOf()
+        rvMarvel = findViewById(R.id.marvel_list)
+
+        val adapter = MarvelAdapter(marvelList)
+        rvMarvel.adapter = adapter
+        rvMarvel.layoutManager = LinearLayoutManager(this@MainActivity)
+
+        getNextImage()
     }
 
-    private fun getNextImage(button: Button, imageView: ImageView) {
-        button.setOnClickListener {
-            val randomCharacterId = 1011334 //(19000..20000).random()
-            getMarvelImageURL(imageView, randomCharacterId)
+    private fun getNextImage() {
+//            val randomCharacterId = 1011334 //(19000..20000).random()
+//            getMarvelImageURL(randomCharacterId)
+
+        for (characterId in 1011334 until 1011345) {
+            getMarvelImageURL(characterId)
         }
     }
 
-    private fun getMarvelImageURL(imageView: ImageView, characterId: Int) {
+    private fun getMarvelImageURL(characterId: Int) {
         val characterUrl =
             "https://gateway.marvel.com/v1/public/characters/$characterId?ts=$timestamp&apikey=$publicKey&hash=${generateHash(timestamp)}"
 
@@ -48,26 +62,31 @@ class MainActivity : AppCompatActivity() {
                 json: JsonHttpResponseHandler.JSON
             ) {
                 Log.d("Marvel", "response successful$json")
-                if (json.jsonObject.has("data")) {
-                    val dataObject = json.jsonObject.getJSONObject("data")
-                    if (dataObject.has("results")) {
-                        val resultsArray = dataObject.getJSONArray("results")
-                        if (resultsArray.length() > 0) {
-                            val characterData = resultsArray.getJSONObject(0)
-                            marvelImagePath = characterData.getJSONObject("thumbnail").getString("path")
-                            imageExt = characterData.getJSONObject("thumbnail").getString("extension")
+                val dataObject = json.jsonObject.getJSONObject("data")
 
-                            val imageUrl = "$marvelImagePath.$imageExt"
-                            loadImage(imageUrl, imageView)
-                        } else {
-                            Log.d("Marvel", "No character data found")
-                        }
-                    } else {
-                        Log.d("Marvel", "No results array in the JSON response")
-                    }
-                } else {
-                    Log.d("Marvel", "No data object in the JSON response")
+                val resultsArray = dataObject.getJSONArray("results")
+                for (i in 0 until resultsArray.length()) {
+                    val characterData = resultsArray.getJSONObject(i)
+                    marvelImagePath = characterData.getJSONObject("thumbnail").getString("path")
+                    imageExt = characterData.getJSONObject("thumbnail").getString("extension")
+
+                    // Construct the full image URL
+                    val imageUrl = "$marvelImagePath.$imageExt"
+
+                    val name = characterData.getString("name")
+                    val date = characterData.getString("modified")
+
+                    val marvelCharacter = MarvelCharacter(imageUrl, name, date)
+
+                    // Log the image URL
+                    Log.d("Marvel", "Image URL: $imageUrl")
+
+                    // Add the image URL to your marvelList for the RecyclerView
+                    marvelList.add(marvelCharacter)
                 }
+
+                rvMarvel.adapter?.notifyDataSetChanged()
+
             }
 
             override fun onFailure(
@@ -95,10 +114,10 @@ class MainActivity : AppCompatActivity() {
         return result.toString()
     }
 
-    private fun loadImage(imageUrl: String, imageView: ImageView) {
-        Glide.with(this)
-            .load(imageUrl)
-            .fitCenter()
-            .into(imageView)
-    }
+//    private fun loadImage(imageUrl: String, imageView: ImageView) {
+//        Glide.with(this)
+//            .load(imageUrl)
+//            .fitCenter()
+//            .into(imageView)
+//    }
 }

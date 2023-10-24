@@ -1,16 +1,16 @@
 <!-- (This is a comment) INSTRUCTIONS: Go through this page and fill out any **bolded** entries with their correct values.-->
 
-# AND101 Project 5 - Choose Your Own API
+# AND101 Project 6 - CYOAPI Part 2: RecyclerView Edition
 
 Submitted by: **Rian Corcino**
 
-Time spent: **5** hours spent in total
+Time spent: **6** hours spent in total
 
 ## Summary
 
-**Marvel API** is an android app that **displays info on random characters from the Marvel API.**
+**MarvelRecyclerView** is an android app that **displays Marvel images, names, and dates on a scrollable list from the Marvel API.**
 
-If I had to describe this project in three (3) emojis, they would be: **🦸‍♂️💥👊**
+If I had to describe this project in three (3) emojis, they would be: **🖱🦸‍♂️💥**
 
 ## Application Features
 
@@ -19,24 +19,20 @@ If I had to describe this project in three (3) emojis, they would be: **🦸‍�
 The following REQUIRED features are completed:
 
 - [x] Make an API call to an API of your choice using AsyncHTTPClient
-- [x] Display at least three (3) pieces of data for each API entry retrieved
-- [x] A working Button requests a new API entry and updates the data displayed
+- [x] Implement a RecyclerView to display a list of entries from the API
+- [x] Display at least three (3) pieces of data for each RecyclerView item
 
 The following STRETCH features are implemented:
 
-- [ ] Add a query to the API request
-  - The query I added is **FILL IN HERE**
-- [ ] Build a UI to allow users to add that query
-
-## API Choice
-
-My chosen API for this project is **Marvel**.
+- [ ] Add a UI element for the user to interact with API further
+- [ ] Show a `Toast` or `Snackbar` when an item is clicked
+- [ ] Add item dividers with `DividerItemDecoration`
 
 ## Video Demo
 
 Here's a video / GIF that demos all of the app's implemented features:
 
-<img src='https://i.imgur.com/vAwdS39.gif' title='Video Demo' width='' alt='Video Demo' />
+<img src='https://i.imgur.com/StLhKOS.gif' title='Video Demo' width='' alt='Video Demo' />
 
 GIF created with **ScreenToGIF**
 
@@ -44,10 +40,6 @@ GIF created with **ScreenToGIF**
 - [Kap](https://getkap.co/) for macOS
 - [ScreenToGif](https://www.screentogif.com/) for Windows
 - [peek](https://github.com/phw/peek) for Linux. -->
-
-## Notes
-
-Here's a place for any other notes on the app, it's creation process, or what you learned this unit!
 
 ## License
 
